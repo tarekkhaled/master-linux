@@ -2,6 +2,7 @@ import {
   ADD_TAG_TO_IMAGE,
   DELETE_IMAGE,
   GET_ALL_IMAGES,
+  SEARCH_IMAGE,
   SIGN_IN,
   SIGN_OUT,
   SIGN_UP,
@@ -54,6 +55,15 @@ const reducers = (state = initialState, { type, payload }) => {
       }
       break;
     case GET_ALL_IMAGES: {
+      const { images } = payload;
+      return {
+        ...state,
+        images: {
+          ...images,
+        },
+      };
+    }
+    case SEARCH_IMAGE: {
       const { images } = payload;
       return {
         ...state,

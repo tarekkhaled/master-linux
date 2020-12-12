@@ -5,6 +5,7 @@ import {
   ADD_TAG_TO_IMAGE,
   DELETE_IMAGE,
   GET_ALL_IMAGES,
+  SEARCH_IMAGE,
   SIGN_IN,
   SIGN_OUT,
   SIGN_UP,
@@ -81,6 +82,20 @@ export const getAllImages = async () => {
   );
   return {
     type: GET_ALL_IMAGES,
+    payload: {
+      images: response.data.images,
+      ...response,
+    },
+  };
+};
+
+export const searchImage = async (searchQuery) => {
+  const response = await axios.get(
+    `${Config.server}/search?q=${searchQuery}`,
+    config(getAuthCookie())
+  );
+  return {
+    type: SEARCH_IMAGE,
     payload: {
       images: response.data.images,
       ...response,
