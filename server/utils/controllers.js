@@ -77,6 +77,9 @@ function logoutUser(req, res) {
 async function permissionAllowed(req, res, next) {
   try {
     logger.debug(`Running permissionAllowed()`);
+    if(/\/tags/g.test(req.originalUrl)) {
+      return next();
+    }
     const bearer = req.headers.authorization;
     if (!bearer) {
       return res.status(401).end();
