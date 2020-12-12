@@ -86,7 +86,7 @@ async function uploadImage(req, res) {
       user.images.push(image._id);
       await user.save();
     }
-    res.status(200).json({ success: true, data: user });
+    res.status(200).json({ success: true, data: image });
   } catch (error) {
     logger.error(`Running uploadImage() failed due to `, error);
     res.status(400).json({ success: false, error });
@@ -131,7 +131,29 @@ async function deleteImage(req, res) {
   }
 }
 
-async function searchImage(req, res) {}
+async function searchImage(req, res) {
+  try {
+    logger.debug(`Running searchImage() with query ${req.query.q}`);
+    const searchQuery = req.query.q;
+    const images = await ImageModel.find();
+    if (!images)
+      return res.status(200).json({
+        success: true,
+        images: [],
+      });
+    const filteredImages = images.filter((image) => {
+      const isFound = image.tags.filter((tag) => tag.includes(searchQuery));
+      return isFound;
+    });
+    return res.status(200).json({
+      success: true,
+      images: filteredImages,
+    });
+  } catch (error) {
+    logger.error(`Running searchImage() failed due to `, error);
+    res.status(400).json({ success: false, error });
+  }
+}
 
 module.exports = {
   getAllImages,
