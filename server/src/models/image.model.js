@@ -5,6 +5,11 @@ const imageScheme = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User",
   },
+  tags: [
+    {
+      type: String,
+    },
+  ],
   path: {
     type: String,
     required: true,
