@@ -38,7 +38,16 @@ const upload = multer({
 // controllers
 async function getAllImages(req, res) {
   try {
-  } catch (e) {}
+    logger.debug(`Running getAllImages()`);
+    const images = await ImageModel.find();
+    return res.status(200).json({
+      success: true,
+      images,
+    });
+  } catch (error) {
+    logger.error(`Running getAllImages() failed due to `, error);
+    res.status(400).json({ success: false, error });
+  }
 }
 
 async function checkImage(req, res, next) {
