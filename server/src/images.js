@@ -113,7 +113,23 @@ async function addImageTag(req, res) {
   }
 }
 
-async function deleteImage(req, res) {}
+async function deleteImage(req, res) {
+  try {
+    logger.debug(`Running deleteImage()`);
+    const image = await ImageModel.findById(req.params.id);
+    if (!image.createdBy.equals(req.user._id)) {
+      return res.status(401).end();
+    }
+    await ImageModel.findByIdAndRemove(req.params.id);
+    res.status(200).json({
+      success: true,
+      message: "image deleted successfully",
+    });
+  } catch (error) {
+    logger.error(`Running deleteImage() failed due to `, error);
+    res.status(400).json({ success: false, error });
+  }
+}
 
 async function searchImage(req, res) {}
 
