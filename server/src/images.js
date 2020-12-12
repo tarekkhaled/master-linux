@@ -35,6 +35,15 @@ const upload = multer({
   },
 }).fields([{ name: "NEW_BANK_IMAGE" }]);
 
+function mapArrayToObject(arr) {
+  if(!arr) return [];
+  return  arr.reduce(function(result, item){
+      var key = [Object.keys(item)[0]] // ID
+      result[item[key]._id] = item;
+      return result;
+  }, {})
+}
+
 // controllers
 async function getAllImages(req, res) {
   try {
@@ -42,7 +51,7 @@ async function getAllImages(req, res) {
     const images = await ImageModel.find();
     return res.status(200).json({
       success: true,
-      images,
+      images: mapArrayToObject(images),
     });
   } catch (error) {
     logger.error(`Running getAllImages() failed due to `, error);
