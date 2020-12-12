@@ -73,10 +73,6 @@ function logoutUser(req, res) {
   }
 }
 
-function checkImage(req, res) {
-  try {
-  } catch (e) {}
-}
 
 async function permissionAllowed(req, res, next) {
   try {
@@ -108,5 +104,4 @@ module.exports = {
   signupUser,
   logoutUser,
   permissionAllowed,
-  checkImage,
 };
