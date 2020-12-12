@@ -13,16 +13,18 @@ const {
   // searchImage,
   loginUser,
   signupUser,
-  checkImage,
+  logoutUser,
   permissionAllowed,
-  logoutUser
 } = require("../utils/controllers");
 
-// const {
-//     uploadImage,
-//     addImageTag,
-//     deleteImage
-// } = require("./images");
+const {
+  checkImage,
+  uploadImage,
+  getAllImages,
+  addImageTag,
+  deleteImage,
+  searchImage,
+} = require("./images");
 
 // configuration app
 process.env.NODE_ENV !== "production" && dotenv.config();
@@ -37,17 +39,20 @@ app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static("public"));
 app.disable("x-powered-by");
 app.use("/api", permissionAllowed);
 
+
 // Routes
-app.use("/auth/login", loginUser);
-app.use("/auth/signup", signupUser);
-app.use("/auth/logout",logoutUser);
-// app.use("/api/images/upload", checkImage, uploadImage);
-// app.use("/api/images/tags", addImageTag);
-// app.use("/api/images/:id", deleteImage);
-// app.use("/search", searchImage);
+app.post("/auth/login", loginUser);
+app.post("/auth/signup", signupUser);
+app.get("/auth/logout", logoutUser);
+app.get("/api/images", getAllImages);
+app.post("/api/images", checkImage, uploadImage);
+app.post("/api/images/:id/tags", addImageTag);
+app.delete("/api/images/:id", deleteImage);
+app.use("/search", searchImage);
 
 const startServer = async () => {
   try {
