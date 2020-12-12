@@ -77,7 +77,7 @@ function logoutUser(req, res) {
 async function permissionAllowed(req, res, next) {
   try {
     logger.debug(`Running permissionAllowed()`);
-    if(/\/tags/g.test(req.originalUrl)) {
+    if(/\/tags/g.test(req.originalUrl) || req.originalUrl === '/api/images') {
       return next();
     }
     const bearer = req.headers.authorization;
