@@ -12,7 +12,7 @@ const logger = new Logger("Images");
 // helpers
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, __dirname + "/public/images/");
+    cb(null, __dirname + "/../public/images/");
   },
   filename: function (req, file, cb) {
     cb(null, req.user.username + "-" + Date.now() + "-" + file.originalname);
@@ -94,8 +94,8 @@ async function uploadImage(req, res) {
       const user = await UserModel.findById(req.user._id);
       user.images.push(image._id);
       await user.save();
+      res.status(200).json({ success: true, data: image });
     }
-    res.status(200).json({ success: true, data: image });
   } catch (error) {
     logger.error(`Running uploadImage() failed due to `, error);
     res.status(400).json({ success: false, error });
