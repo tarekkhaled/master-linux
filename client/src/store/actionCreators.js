@@ -1,6 +1,6 @@
 import axios from "axios";
 import { config, getAuthCookie } from "../utils";
-import { server } from "../config";
+import Config from "../config";
 import {
   ADD_TAG_TO_IMAGE,
   DELETE_IMAGE,
@@ -15,7 +15,7 @@ import {
 
 export const signUserIn = async (user) => {
   const response = await axios.post(
-    `${server}/auth/login`,
+    `${Config.server}/auth/login`,
     user,
     config(getAuthCookie())
   );
@@ -30,7 +30,7 @@ export const signUserIn = async (user) => {
 
 export const signUserOut = async (user) => {
   const response = await axios.post(
-    `${server}/auth/logout`,
+    `${Config.server}/auth/logout`,
     user,
     config(getAuthCookie())
   );
@@ -44,7 +44,7 @@ export const signUserOut = async (user) => {
 
 export const signUserUp = async (user) => {
   const response = await axios.post(
-    `${server}/auth/signup`,
+    `${Config.server}/auth/signup`,
     user,
     config(getAuthCookie())
   );
@@ -60,7 +60,7 @@ export const signUserUp = async (user) => {
 // Actions related to Image
 export const AddTagToImage = async (imageId, tags) => {
   const response = await axios.post(
-    `${server}/api/images/${imageId}/tags`,
+    `${Config.server}/api/images/${imageId}/tags`,
     { tags },
     config(getAuthCookie())
   );
@@ -76,7 +76,7 @@ export const AddTagToImage = async (imageId, tags) => {
 
 export const getAllImages = async () => {
   const response = await axios.get(
-    `${server}/api/images`,
+    `${Config.server}/api/images`,
     config(getAuthCookie())
   );
   return {
@@ -90,7 +90,7 @@ export const getAllImages = async () => {
 
 export const deleteImage = async (imageId) => {
   const response = await axios.delete(
-    `${server}/api/images/${imageId}`,
+    `${Config.server}/api/images/${imageId}`,
     config(getAuthCookie())
   );
   return {
@@ -103,7 +103,7 @@ export const deleteImage = async (imageId) => {
 
 export const uploadImage = async (image) => {
   const response = await axios.post(
-    `${server}/api/images/`,
+    `${Config.server}/api/images/`,
     image,
     config(getAuthCookie())
   );
