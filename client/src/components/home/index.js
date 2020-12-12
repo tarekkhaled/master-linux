@@ -1,13 +1,11 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getAllImages } from "../../store/actionCreators";
+import { getAllImages, AddTagToImage } from "../../store/actionCreators";
 import Config from "../../config";
 
 function Home({ dispatch, images }) {
   const [tag, handleTag] = useState("");
-  const [tags,addTags] = useState([]);
-  
 
   useEffect(() => {
     async function fetchImages() {
@@ -16,6 +14,11 @@ function Home({ dispatch, images }) {
     fetchImages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleTagSubmit = (e,imageId) => {
+    e.preventDefault();
+    dispatch(AddTagToImage(imageId,[tag]));
+  };
 
   return (
     <div
@@ -29,12 +32,13 @@ function Home({ dispatch, images }) {
       {images.map((image) => (
         <div style={{ margin: "10px" }}>
           <img
+            alt="bank-shown"
             style={{ width: "300px" }}
             src={`${Config.server}/${image.path}`}
           />
           <p>tags</p>
           {image?.tags.map((tag) => (
-            <span>{tag}</span>
+            <p style={{width:'100%'}}>{tag}</p>
           ))}
           <form>
             <input
@@ -42,7 +46,7 @@ function Home({ dispatch, images }) {
               placeholder="add tag"
               onChange={(e) => handleTag(e.target.value)}
             />
-            <button onClick={addTags}>add tag</button>
+            <button onClick={(e) => handleTagSubmit(e,image._id)}>add tag</button>
           </form>
         </div>
       ))}
