@@ -10,6 +10,7 @@ npm start
 ```
 cd server/
 npm install
+create .env file with (DATABASE=mongodb connection, JWT_SECREt)
 npm start || npm run dev (with logging)
 ```
 
