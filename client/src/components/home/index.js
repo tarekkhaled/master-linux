@@ -1,10 +1,15 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getAllImages, AddTagToImage,searchImage } from "../../store/actionCreators";
+import {
+  getAllImages,
+  AddTagToImage,
+  deleteImage,
+  searchImage,
+} from "../../store/actionCreators";
 import Config from "../../config";
 
-function Home({ dispatch, images }) {
+function Home({ dispatch, images, user }) {
   const [tag, handleTag] = useState("");
   const [searchQuery, handleSearch] = useState("");
 
@@ -25,17 +30,20 @@ function Home({ dispatch, images }) {
     dispatch(searchImage(searchQuery));
   };
 
+  const handleRemove = (id) => {
+    dispatch(deleteImage(id));
+  };
+
   return (
     <>
-      <div style={{textAlign:'center',marginTop:'20px'}}>
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
         <input
           type="text"
           placeholder="search image with tag"
           onChange={(e) => handleSearch(e.target.value)}
         />
-      <button onClick={submitSearching}>search</button>
+        <button onClick={submitSearching}>search</button>
       </div>
-
 
       <div
         style={{
@@ -66,6 +74,9 @@ function Home({ dispatch, images }) {
                 add tag
               </button>
             </form>
+            {image.createdBy === user._id ? (
+              <button onClick={(id) => handleRemove(image.id)}>remove</button>
+            ) : null}
           </div>
         ))}
       </div>
@@ -75,10 +86,12 @@ function Home({ dispatch, images }) {
 
 Home.propTypes = {
   images: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   images: Object.values(state?.images),
+  user: state?.user,
 });
 
 export default connect(mapStateToProps)(Home);

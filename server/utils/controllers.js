@@ -96,7 +96,7 @@ async function permissionAllowed(req, res, next) {
     }
     req.user = user;
     next();
-  } catch (e) {
+  } catch (error) {
     logger.error(`Running permissionAllowed() failed due to `, error);
     res.status(401).end();
   }
