@@ -93,7 +93,25 @@ async function uploadImage(req, res) {
   }
 }
 
-async function addImageTag(req, res) {}
+async function addImageTag(req, res) {
+  try {
+    logger.debug(`Running addImageTag()`);
+    const image = await ImageModel.findById(req.params.id);
+    const { tags } = req.body;
+    if (!image || !tags) return res.status(400).end();
+    tags.forEach((tag) => {
+      image.tags.push(tag);
+    });
+    await image.save();
+    return res.status(200).json({
+      success: true,
+      message: "tags add successfully to image",
+    });
+  } catch (error) {
+    logger.error(`Running addImageTag() failed due to `, error);
+    res.status(400).json({ success: false, error });
+  }
+}
 
 async function deleteImage(req, res) {}
 
