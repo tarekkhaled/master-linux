@@ -4,9 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "run-server": "npm run dev --prefix server",
+    "run-client": "npm start --prefix client",
+    "full-stack": "concurrently \"npm:run-server\" \"npm:run-client\""
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  },
+  "dependencies": {
+  }
 }
