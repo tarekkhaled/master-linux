@@ -36,12 +36,12 @@ const upload = multer({
 }).fields([{ name: "NEW_BANK_IMAGE" }]);
 
 function mapArrayToObject(arr) {
-  if(!arr) return [];
-  return  arr.reduce(function(result, item){
-      var key = [Object.keys(item)[0]] // ID
-      result[item[key]._id] = item;
-      return result;
-  }, {})
+  if (!arr) return [];
+  return arr.reduce(function (result, item) {
+    var key = [Object.keys(item)[0]]; // ID
+    result[item[key]._id] = item;
+    return result;
+  }, {});
 }
 
 // controllers
@@ -151,7 +151,11 @@ async function searchImage(req, res) {
         images: [],
       });
     const filteredImages = images.filter((image) => {
-      const isFound = image.tags.filter((tag) => tag.includes(searchQuery));
+      const isFound =
+        image.tags.filter((tag) => tag.includes(searchQuery)).length > 0
+          ? true
+          : false;
+      console.log({ isFound });
       return isFound;
     });
     return res.status(200).json({
