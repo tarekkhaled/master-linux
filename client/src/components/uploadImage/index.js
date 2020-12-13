@@ -15,9 +15,8 @@ function UploadImageComponent({ dispatch }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Log in</h3>
+      <h3>Upload Image</h3>
       <div className="form-group">
-        <label>Username</label>
         <input
           type="file"
           onChange={(e) => {
